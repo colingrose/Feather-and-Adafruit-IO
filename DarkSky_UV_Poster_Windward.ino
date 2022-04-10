@@ -15,9 +15,9 @@
 #include <Servo.h>
 #endif
 
-// pin used to control the servo
-#define SERVOAZIMUTH_PIN 2
-#define SERVOALTITUDE_PIN 3
+// pins used to control the servos
+#define SERVOAZIMUTH_PIN 2  //first pin after SDA & SCL
+#define SERVOALTITUDE_PIN 16  //second pin after SDA & SCL
 
 // create two instances of the servo class
 Servo servoAzimuth;
@@ -56,12 +56,12 @@ void setup() {
   Serial.print("Connecting to Adafruit IO");
   io.connect();
 
-  // set up a message handler for the 'servo' feeds.
-  // the handleMessage function (defined below)
+  // set up message handlers for the 'servo' feeds.
+  // the handleAzimuth and handleAltitude functions (defined below)
   // will be called whenever a message is
   // received from adafruit io.
-  servoAzimuth_feed->onMessage(handleMessage);
-  servoAltitude_feed->onMessage(handleMessage);
+  servoAzimuth_feed->onMessage(handleAzimuth);
+  servoAltitude_feed->onMessage(handleAltitude);
 
   // wait for a connection
   while (io.status() < AIO_CONNECTED) {
@@ -84,20 +84,16 @@ void loop() {
   // function. it keeps the client connected to
   // io.adafruit.com, and processes any incoming data.
   io.run();
-  if (indicator == true) {
-    blink();
-  }
-  else {
-    digitalWrite(UValert, LOW);
-  }
+
 }
+
 // this function is called whenever an 'Azimuth' message
 // is received from Adafruit IO. it was attached to
 // the azimuth servo feed in the setup() function above.
-void handleMessage(AdafruitIO_Data *servoAzimuth_feed) {
+void handleAzimuth(AdafruitIO_Data *azimuthValue) {
 
   // convert the data to integer
-  int azimuth = data->toInt();
+  int azimuth = azimuthValue->toInt();
 
   //print the Azimuth
   Serial.print("Azimuth is ");
@@ -105,21 +101,20 @@ void handleMessage(AdafruitIO_Data *servoAzimuth_feed) {
 
   //set the servo to the correct angle
   servoAzimuth.write(azimuth);
-  }
 }
+
 // this function is called whenever an 'Altitude' message
 // is received from Adafruit IO. it was attached to
 // the altitude servo feed in the setup() function above.
-void handleMessage(AdafruitIO_Data *servoAltitude_feed) {
+void handleAltitude(AdafruitIO_Data *altitudeValue) {
 
   // convert the data to integer
-  int altitude = data->toInt();
+  int Altitude = altitudeValue->toInt();
 
   //print the Azimuth
   Serial.print("Altitude is ");
-  Serial.println(altitude);
+  Serial.println(Altitude);
 
   //set the servo to the correct angle
-  servoAltitude.write(altitude);
-  }
+  servoAltitude.write(Altitude);
 }
