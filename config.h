@@ -14,7 +14,7 @@
 //   - Feather M0 WiFi -> https://www.adafruit.com/products/3010
 //   - Feather WICED -> https://www.adafruit.com/products/3056
 
-#define WIFI_SSID       "XXXXXXXXXXXX"
+#define WIFI_SSID       "Windward_Wildcats"
 #define WIFI_PASS       "XXXXXXXXXXXX"
 
 // comment out the following two lines if you are using fona or ethernet
