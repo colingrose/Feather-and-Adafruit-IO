@@ -45,8 +45,6 @@ void setup() {
   delay(1000);
   servoAZ.write(0);
   delay(1000);
-  servoAL.detach();
-
   
   servoAL.attach(SERVOAL_PIN);
   servoAL.write(90);
